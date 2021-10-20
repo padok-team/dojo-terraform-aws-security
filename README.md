@@ -182,7 +182,7 @@ We would like the webserver for development and production to be in a private su
 1. Modify the right variable of resource `webserver` in `main.tf` to use a private subnet.
 
 <details>
-  <summary>Hint 1</summary>
+  <summary>Hint</summary>
   
   Change the value of `subnet_id` variable.
 </details>
@@ -210,13 +210,13 @@ We would like the webserver for development and production to be in a private su
       * enable_deletion_protection: `false`
 
 <details>
-  <summary>Hint 1</summary>
+  <summary>Hint</summary>
 
   Missing variables are:
-      * security_groups : `[aws_security_group.allow_pub.id]`
-      * subnets: `[module.vpc.public_subnets[0]]`
-      * internal: `false`
-      * load_balancer_type: `"application"`
+  * security_groups : `[aws_security_group.allow_pub.id]`
+  * subnets: `[module.vpc.public_subnets[0]]`
+  * internal: `false`
+  * load_balancer_type: `"application"`
 </details>
 
 
@@ -250,35 +250,37 @@ resource "aws_lb" "webserver_lb" {
 <details>
   <summary>Hint 1</summary>
 
-    Variables `aws_lb_listener`:
-      * load_balancer_arn: `"${aws_lb.webserver_lb.arn}"`
-      * port: `80`
-      * protocol: `HTTP`
-      * default_action.type: `"forward"`
-      * default_action.target_group_arn: `"${aws_lb_target_group.webserver_lb_target.arn}"`
+Variables for `aws_lb_listener` :
+  * load_balancer_arn: `"${aws_lb.webserver_lb.arn}"`
+  * port: `80`
+  * protocol: `HTTP`
+  * default_action.type: `"forward"`
+  * default_action.target_group_arn: `"${aws_lb_target_group.webserver_lb_target.arn}"`
 </details>
 
 <details>
   <summary>Hint 2</summary>
 
-    Variables `aws_lb_target_group`:
-      * name: `"${random_string.unique_id.id}-${var.environment}-webserver-lb-tg"`
-      * port: lb_listener port
-      * protocol: lb_listener protocol
-      * vpc_id: `module.vpc.vpc_id`
+Variables `aws_lb_target_group`:
+  * name: `"${random_string.unique_id.id}-${var.environment}-webserver-lb-tg"`
+  * port: lb_listener port
+  * protocol: lb_listener protocol
+  * vpc_id: `module.vpc.vpc_id`
 </details>
 
 <details>
   <summary>Hint 3</summary>
 
-    Variables `aws_lb_target_group_attachment`:
-      * target_group_arn: `"${aws_lb_target_group.webserver_lb_tg.arn}"`
-      * target_id: `"${aws_instance.webserver.id}" `
-      * port: lb_listener port
+Variables `aws_lb_target_group_attachment`:
+  * target_group_arn: `"${aws_lb_target_group.webserver_lb_tg.arn}"`
+  * target_id: `"${aws_instance.webserver.id}" `
+  * port: lb_listener port
 </details>
 
 <details>
   <summary>Solution</summary>
+
+Add this to `main.tf` : 
     
   ```
     resource "aws_lb_listener" "webserver_lb_listener" {  
@@ -308,14 +310,14 @@ resource "aws_lb" "webserver_lb" {
 </details>
 
 
-5. Change `output.fr` to :
+1. Change `output.fr` to :
    * Comment the `ssh` output and `private_key_pem`. (not useful for now)
    * Modify the `webserver` output to get the Load balancer DNS name instead
 
 <details>
   <summary>Hint</summary>
 
-  value = "http://${aws_lb.webserver_lb.dns_name}"
+  value: `"http://${aws_lb.webserver_lb.dns_name}"`
 </details>
 
 
@@ -339,8 +341,8 @@ It is time to restrict access to the public subnet for `dev` environment
 <details>
   <summary>Solution</summary>
 
-   `prd.tfvars` : `ip_whitelist = []`
-   `dev.tfvars` : `ip_whitelist = ['<your_ip>/32']`
+* `prd.tfvars` : `ip_whitelist = []`
+* `dev.tfvars` : `ip_whitelist = ['<your_ip>/32']`
 </details>
 
 2. Modify `allow_pub` resource in `network.tf` to only allow your public IP address **only for dev environment**
@@ -348,8 +350,8 @@ It is time to restrict access to the public subnet for `dev` environment
 <details>
   <summary>Solution</summary>
 
-    You can find solution here:
-   - [solution/step_3/network.tf](./solution/step_3/network.tf)
+You can find solution here:
+  [solution/step_3/network.tf](./solution/step_3/network.tf)
 </details>
 
 # Finally : Apply to production environment
