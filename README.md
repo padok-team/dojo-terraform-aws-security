@@ -168,9 +168,9 @@ tf apply -var-file ${tf workspace show}.tfvars
 ```
 
 <details>
-  <summary>Solution Step 1</summary>
+  <summary>Solutions Step 1</summary>
 
-You can find solution here:
+You can find solutions here:
   * [solution/step_1/main.tf](./solution/step_2/main.tf)
   * [solution/step_1/output.tf](./solution/step_2/output.tf)
   * [solution/step_1/dev.tfvars](./solution/step_2/dev.tfvars)
@@ -319,16 +319,7 @@ Add this to `main.tf` :
   ```
 </details>
 
-<details>
-  <summary>Solution Step 2</summary>
-
-You can find solution here:
-  * [solution/step_2/main.tf](./solution/step_2/main.tf)
-  * [solution/step_2/output.tf](./solution/step_2/output.tf)
-</details>
-
-
-1. Change `output.fr` to :
+5. Change `output.fr` to :
    * Comment the `ssh` output and `private_key_pem`. (not useful for now)
    * Modify the `webserver` output to get the Load balancer DNS name instead
 
@@ -349,6 +340,14 @@ Look for the one with your random prefix in its name.
 curl http://RtIr69Zk-dev-webserver-lb-1866337979.eu-west-3.elb.amazonaws.com
 <h2>This is the dev environment <h2>
 ```
+
+<details>
+  <summary>Solutions Step 2</summary>
+
+You can find solutions here:
+  * [solution/step_2/main.tf](./solution/step_2/main.tf)
+  * [solution/step_2/output.tf](./solution/step_2/output.tf)
+</details>
 
 ## Step 3 : Network filtering 
 
