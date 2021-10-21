@@ -167,6 +167,16 @@ tf workspace select dev
 tf apply -var-file ${tf workspace show}.tfvars
 ```
 
+<details>
+  <summary>Solution Step 1</summary>
+
+You can find solution here:
+  * [solution/step_1/main.tf](./solution/step_2/main.tf)
+  * [solution/step_1/output.tf](./solution/step_2/output.tf)
+  * [solution/step_1/dev.tfvars](./solution/step_2/dev.tfvars)
+</details>
+
+
 /!\ You will need two different SSH keys for production and development environment now.
 
 OK ! Now we have separated network for environment. It is already much more secure !
@@ -307,6 +317,14 @@ Add this to `main.tf` :
     port             = 80
   }
   ```
+</details>
+
+<details>
+  <summary>Solution Step 2</summary>
+
+You can find solution here:
+  * [solution/step_2/main.tf](./solution/step_2/main.tf)
+  * [solution/step_2/output.tf](./solution/step_2/output.tf)
 </details>
 
 
