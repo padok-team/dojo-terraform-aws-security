@@ -15,6 +15,11 @@ variable "environment" {
   description = "Name of the environment"
 }
 
+variable "vpc_id" {
+  type    = string
+  description = "ID of the VPC"
+}
+
 variable "public_subnets" {
   type    = list
   description = "ID of the public subnet"
