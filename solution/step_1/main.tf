@@ -64,7 +64,7 @@ resource "aws_instance" "webserver" {
   )
 
   // Define in which subnet the instance is
-  subnet_id         = var.public_subnet_id
+  subnet_id         = var.public_subnets[0]
 
   // Define which security group is associated to the instance
   vpc_security_group_ids = [

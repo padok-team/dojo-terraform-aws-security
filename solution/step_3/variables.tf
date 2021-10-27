@@ -15,6 +15,16 @@ variable "environment" {
   description = "Name of the environment"
 }
 
+variable "public_subnets" {
+  type    = list
+  description = "ID of the public subnet"
+}
+
+variable "private_subnets" {
+  type    = list
+  description = "ID of the private subnet"
+}
+
 variable "ip_whitelist" {
   type = list
   description = "List of IP adresse authorized to access Load Balancer"

@@ -64,7 +64,7 @@ resource "aws_instance" "webserver" {
   )
 
   // Define in which subnet the instance is
-  subnet_id         = module.vpc.private_subnets[0]
+  subnet_id         = var.public_subnets[0]
 
   // Define which security group is associated to the instance
   vpc_security_group_ids = [
@@ -77,7 +77,7 @@ resource "aws_lb" "webserver_lb" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.allow_pub.id]
-  subnets            = module.vpc.public_subnets
+  subnets            = var.public_subnets
 
   enable_deletion_protection = false
 }
@@ -85,7 +85,7 @@ resource "aws_lb_target_group" "webserver_lb_tg" {
   name     = "${random_string.unique_id.id}-${var.environment}-webserver-lb-tg"
   port     = 80
   protocol = "HTTP"
-  vpc_id   = module.vpc.vpc_id
+  vpc_id   = var.vpc_id
 }
 
 resource "aws_lb_listener" "webserver_lb_listener" {  
