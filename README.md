@@ -9,7 +9,17 @@ For this exercise, you will need `terraform` and `curl`.
 You can download `terraform` [on the Hashicorp page](https://www.terraform.io/downloads.html).
 In the following, the alias `tf` is been used for `terraform`.
 
-TODO : Install and Set AWS with the Access key in `padok_supelec` profile
+You will also need `aws` CLI and configure it with the provided Access key using `padok_supelec` profile.
+You can follow the instructions to install `aws` CLI on the [AWS documentation page](https://docs.aws.amazon.com/fr_fr/cli/latest/userguide/install-cliv2-linux.html).
+Then, to configure your Access key, run:
+```bash
+cat  << EOF > ~/.aws/credentials
+[padok_supelec]
+aws_access_key_id = <ACCESS_KEY>
+aws_secret_access_key = <SECRET_KEY>
+region = eu-west-3
+EOF
+```
 
 # Explore the Terraform code
 
