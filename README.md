@@ -9,15 +9,24 @@ For this exercise, you will need `terraform` and `curl`.
 You can download `terraform` [on the Hashicorp page](https://www.terraform.io/downloads.html).
 In the following, the alias `tf` is been used for `terraform`.
 
+```bash
+alias tf=terraform
+```
+
 You will also need `aws` CLI and configure it with the provided Access key using `padok_supelec` profile.
 You can follow the instructions to install `aws` CLI on the [AWS documentation page](https://docs.aws.amazon.com/fr_fr/cli/latest/userguide/install-cliv2-linux.html).
 Then, to configure your Access key, run:
 ```bash
+mkdir ~/.aws
 cat  << EOF > ~/.aws/credentials
 [padok_supelec]
 aws_access_key_id = <ACCESS_KEY>
 aws_secret_access_key = <SECRET_KEY>
+EOF
+cat  << EOF > ~/.aws/config
+[profile padok_supelec]
 region = eu-west-3
+output = json
 EOF
 ```
 
@@ -46,9 +55,6 @@ tf workspace show
 
 # View the planned actions
 tf plan -var-file $(tf workspace show).tfvars
-
-# It should output:
-Plan: 7 to add, 0 to change, 0 to destroy.
 
 # check for planned actions, and if everything seems ok, say 'yes' to apply them
 tf apply -var-file $(tf workspace show).tfvars
@@ -94,7 +100,7 @@ Create a second Terraform workspace to be able to have two identical environment
 
 ```
 tf workspace new dev
-copy prd.tfvars dev.tfvars
+cp prd.tfvars dev.tfvars
 ```
 
 The `tfvars` files will be used to defined environment specific variable values.
@@ -165,9 +171,6 @@ tf workspace show
 # Check if Terraform code is valid
 tf plan -var-file $(tf workspace show).tfvars
 
-# It should output:
-Plan: 1 to add, 0 to change, 2 to destroy.
-
 # Apply changes
 tf apply -var-file $(tf workspace show).tfvars
 
@@ -177,7 +180,7 @@ Now we will create the developement environment
 ```
 tf workspace select dev
 
-tf apply -var-file ${tf workspace show}.tfvars
+tf apply -var-file $(tf workspace show).tfvars
 ```
 
 <details>
