@@ -448,3 +448,9 @@ We could improve the infrastructure much more, for example:
 * Have ASG (Auto Scaling Group) instead of only one instance to ensure high availability and scalability.
 
 * Create and admin bastion to access our server in SSH : Developers could SSH to an EC2 instance in a public subnet, and from it get access to the webserver in SSH with SSH tunnelling.
+
+# LICENSE
+
+© 2022 [Padok](https://www.padok.fr/).
+
+Licensed under the [Apache License](https://www.apache.org/licenses/LICENSE-2.0), Version 2.0 ([LICENSE](./LICENSE))
