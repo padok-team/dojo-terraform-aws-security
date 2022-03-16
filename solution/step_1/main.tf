@@ -36,7 +36,8 @@ data "aws_ami" "webserver_ami" {
 
 }
 /*
-PRODUCTION ENVIRONMENT
+PRODUCTION & STAGING ENVIRONMENTS
+Both are described by the same resource
 */
 
 // An instance is a virtual machine on AWS

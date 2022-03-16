@@ -1,7 +1,7 @@
 aws_region = "eu-west-3"
 aws_profile = "padok_supelec"
 environment = "prd"
-vpc_id = "vpc-06d9f4f0ea4bc4e80"
-public_subnets = ["subnet-0d9830b17d3fc355a","subnet-0fc91e29f34adb44e"]
-private_subnets = ["subnet-0ee070a9903acf0b9","subnet-017adb7bef1df7b5a"]
-ip_whitelist = ["193.54.194.17/32"]
+vpc_id = "vpc-0cb126ad82372bffa"
+public_subnets = ["subnet-0438903cad076985b","subnet-05e4be6c3f98e3598"]
+private_subnets = ["subnet-0a0d4d9f7d89547ba","subnet-05142644e210ff65c"]
+ip_whitelist = []
