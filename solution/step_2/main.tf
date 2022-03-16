@@ -36,7 +36,8 @@ data "aws_ami" "webserver_ami" {
 
 }
 /*
-PRODUCTION ENVIRONMENT
+PRODUCTION & STAGING ENVIRONMENTS
+Both are described by the same resource
 */
 
 // An instance is a virtual machine on AWS
@@ -64,7 +65,7 @@ resource "aws_instance" "webserver" {
   )
 
   // Define in which subnet the instance is
-  subnet_id         = var.public_subnets[0]
+  subnet_id         = var.private_subnets[0]
 
   // Define which security group is associated to the instance
   vpc_security_group_ids = [

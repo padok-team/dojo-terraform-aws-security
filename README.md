@@ -115,15 +115,18 @@ We want only one webserver in each environment:
 <details>
   <summary>Hint 1</summary>
 
-  You can remove `staging_webserver` and rename `production_webserver` into `webserver`.
-  Then you need to modify the resource variable using an hard value that is specific to production instance.
+  Your single resource should not have an environment specific name.
+
+  To have only one resource, all parameters which are specific to one environment can be defined as variables.
+  Check accessible variables in `variables.tf` file.
 </details>
 
 <details>
   <summary>Hint 2</summary>
 
-  You can modify the resource variable `user_data` to use a variable instead of the hard value `production`.
-  Check accessible variables in `variables.tf`.
+  You can remove `staging_webserver` and rename `production_webserver` into `webserver`.
+  You can modify the resource variable `user_data` to use a variable from `variables.tf` file instead of the hard value `production`.
+
 </details>
 
 <details>
@@ -135,7 +138,7 @@ We want only one webserver in each environment:
 <details>
   <summary>Hint 4</summary>
 
-  You can replace `"production"` by `"${var.environment}"`
+  You can replace `"production"` or `"staging"` by `"${var.environment}"`
 </details>
 
 3. Modify output.tf accordingly
@@ -143,13 +146,13 @@ We want only one webserver in each environment:
 <details>
   <summary>Hint 1</summary>
   
-  Remove or modify outputs that are specific to one environment.
+  Read the tf error when doing `tf plan -var-file $(tf workspace show).tfvars` until there is none!
 </details>
 
 <details>
   <summary>Hint 2</summary>
-  
-  Read the tf error when doing `tf plan -var-file $(tf workspace show).tfvars` until there is none!
+
+  Remove or modify outputs that are specific to one environment.
 </details>
 
 <details>
@@ -202,7 +205,7 @@ OK ! Now we have separated network for environment. It is already much more secu
 ### Step 2 : Add Load Balancing
 
 We would like the webserver for development and production to be in a private subnet, with a frontal load balancer. It would avoid any port except from 80 to be publically accessible on the webserver. It also means that it won't be possible anymore to SSH into the machines (for now). Finally, it is a good practice to use a load balancer. It would allow us for exemple to have autoscaling in the future, or add AWS WAF to protect the website against vulnerabilities.
-* The dev environment to be accessible only from CentraleSupelec IP adress
+* The dev environment to be accessible only from your IP adress
 
 
 1. Modify the right variable of resource `webserver` in `main.tf` to use a private subnet.
@@ -229,27 +232,35 @@ We would like the webserver for development and production to be in a private su
 
 3. Add a Load balancer in `main.tf` to receive HTTP requests
     * Documentation : https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb
-    * Variables :
+    * The resource should contain the following variables :
       * name: `"${random_string.unique_id.id}-${var.environment}-webserver-lb"`
+      * internal: `false`
+      * load_balancer_type: `"application"`
       * security_groups: Public security group
       * subnets: Public subnet
       * enable_deletion_protection: `false`
 
 <details>
-  <summary>Hint</summary>
+  <summary>Hint 1</summary>
+
+  Create a resource block for `aws_lb` resource as described in the documentation.
+  The resource should contain variables listed above.
+
+  `subnet_id` and `vpc_security_group_ids` parameters from the resource `aws_instance` from step1 can help you for `subnets` and `security_groups` parameters.
+</details>
+
+<details>
+  <summary>Hint 2</summary>
 
   Missing variables are:
   * security_groups : `[aws_security_group.allow_pub.id]`
   * subnets: `var.public_subnets`
-  * internal: `false`
-  * load_balancer_type: `"application"`
 </details>
-
 
 <details>
   <summary>Solution</summary>
 
-Add this to `main.tf` : 
+Add this to `main.tf` :
 
 ```
 resource "aws_lb" "webserver_lb" {
@@ -274,39 +285,64 @@ resource "aws_lb" "webserver_lb" {
   https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group_attachment
 
 <details>
-  <summary>Hint 1</summary>
+  <summary>Hint</summary>
 
-Variables for `aws_lb_listener` :
-  * load_balancer_arn: `"${aws_lb.webserver_lb.arn}"`
-  * port: `80`
-  * protocol: `HTTP`
-  * default_action.type: `"forward"`
-  * default_action.target_group_arn: `"${aws_lb_target_group.webserver_lb_target.arn}"`
+  Complete the following block with paramaters:
+  ```
+  resource "aws_lb_target_group" "webserver_lb_tg" {
+    name     = #TO COMPLETE
+    port     = #TO COMPLETE
+    protocol = #TO COMPLETE
+    vpc_id   = #TO COMPLETE
+  }
+
+  resource "aws_lb_listener" "webserver_lb_listener" {  
+    load_balancer_arn = "${aws_lb.webserver_lb.arn}"
+    port              = #TO COMPLETE
+    protocol          = #TO COMPLETE
+    
+    default_action {    
+      target_group_arn = "${aws_lb_target_group.webserver_lb_target.arn}"
+      type             = #TO COMPLETE
+    }
+  }
+
+  resource "aws_lb_target_group_attachment" "webserver_lb_tg_attachment" {
+    target_group_arn = "${aws_lb_target_group.webserver_lb_target.arn}"
+    target_id        = #TO COMPLETE
+    port             = #TO COMPLETE
+  }
+  ```
 </details>
 
 <details>
-  <summary>Hint 2</summary>
+  <summary>Hint for `aws_lb_target_group`</summary>
 
-Variables `aws_lb_target_group`:
-  * name: `"${random_string.unique_id.id}-${var.environment}-webserver-lb-tg"`
+  * name: take exemple from `aws_lb` name parameter
   * port: lb_listener port
   * protocol: lb_listener protocol
-  * vpc_id: `var.vpc_id`
+  * vpc_id: take a look at available variables
 </details>
 
 <details>
-  <summary>Hint 3</summary>
+  <summary>Hint for `aws_lb_listener`</summary>
 
-Variables `aws_lb_target_group_attachment`:
-  * target_group_arn: `"${aws_lb_target_group.webserver_lb_target.arn}"`
-  * target_id: `"${aws_instance.webserver.id}" `
+  * port: lb_listener port
+  * protocol: lb_listener protocol
+  * default_action.type: The listener **forward** traffic to target groups
+</details>
+
+<details>
+  <summary>Hint for `aws_lb_target_group_attachment`</summary>
+
+  * target_id: id of the aws instance described in `aws_instance` resource
   * port: lb_listener port
 </details>
 
 <details>
   <summary>Solution</summary>
 
-Add this to `main.tf` : 
+Add this to `main.tf`:
     
   ```
   resource "aws_lb_listener" "webserver_lb_listener" {  
@@ -342,7 +378,7 @@ Add this to `main.tf` :
 <details>
   <summary>Hint</summary>
 
-  value: `"http://${aws_lb.webserver_lb.dns_name}"`
+  value for `webserver` output: `"http://${aws_lb.webserver_lb.dns_name}"`
 </details>
 
 
@@ -365,11 +401,18 @@ You can find solutions here:
   * [solution/step_2/output.tf](./solution/step_2/output.tf)
 </details>
 
-## Step 3 : Network filtering 
+## Step 3 : Network filtering
 
 It is time to restrict access to the public subnet for `dev` environment
 
 1. Add a variable `ip_whitelist` of type `list` in `variables.tf` and modify `prd.tfvars` and `dev.tfvars` accordingly
+
+<details>
+  <summary>Hint</summary>
+
+  Take example from other variables to define `ip_whitelist` in `variables.tf`.
+  Variable created should be define in both `prd.tfvars` and `dev.tfvars` but the list should contain an IP only for the dev environment.
+</details>
 
 <details>
   <summary>Solution</summary>

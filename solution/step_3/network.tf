@@ -11,7 +11,7 @@ resource "aws_security_group" "allow_pub" {
   // VPC in which the subnet will be
   vpc_id      = var.vpc_id
 
-  // Ingress rules. This allow everything. Very secure
+  // Ingress rules. This allow only whitelisted IPs
   ingress {
     description = "Allow Ingress"
     from_port   = 0
