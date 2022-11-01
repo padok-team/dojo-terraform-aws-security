@@ -1,54 +1,21 @@
-# version
-terraform {
-  required_version = ">= 1.0"
-}
-
-# providers
-provider "aws" {
-  region  = var.aws_region
-  profile = var.aws_profile
-}
-
 terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "3.38.0"
+      version = "~> 4.11"
     }
   }
 }
+provider "aws" {
+  profile = "padok-lab"
+  region  = "eu-west-3"
+}
 
 /* 
-Create a user for eleves with access key and appropriate IAM policy
+Grant IAM Role to the user's EC2
 */
-resource "aws_iam_user" "eleve" {
-  name = "eleve"
-}
 
-resource "aws_iam_access_key" "eleve" {
-  user = aws_iam_user.eleve.name
-}
-
-resource "aws_iam_user_policy" "eleve" {
-  name = "eleve_policy"
-  user = aws_iam_user.eleve.name
-
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:*",
-        "elasticloadbalancing:*"
-      ],
-      "Resource": "*"
-    }
-  ]
-}
-EOF
-}
+## TODO
 
 data "aws_availability_zones" "available" {}
 

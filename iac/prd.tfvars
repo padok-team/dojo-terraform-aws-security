@@ -1,6 +1,6 @@
 
 aws_region = "eu-west-3"
-aws_profile = "padok_supelec"
+aws_profile = "padok-lab"
 environment = "prd"
 vpc_id = "vpc-0cb126ad82372bffa"
 public_subnets = ["subnet-0438903cad076985b","subnet-05e4be6c3f98e3598"]
