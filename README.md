@@ -1,42 +1,51 @@
 # Exercise ~ Securing an infrastructure with Terraform
 
-In this exercise, you will learn to use terraform to create an AWS environment,
-and secure it.
+Welcome to this Dojo !
+Your goal is to use terraform to create and secure an AWS environment, and learn the maximum during this session.
 
-# Install the tools you will need
+That's why it is essential that:
 
-For this exercise, you will need `terraform` and `curl`.
-You can download `terraform` [on the Hashicorp page](https://www.terraform.io/downloads.html).
-In the following, the alias `tf` is been used for `terraform`.
+- You experiment and try things that may break. Don't simply copy paste everything from StackOverflow until it passes the test !
+- To keep moving or learn more, please _andon_! It means then whenever you have a question, a doubt, a feedback, call someone from the staff, we'll love to help you.
+
+## Setup your env
+
+First, you need to setup your computer for the dojo.
+
+Start with cloning this repo:
 
 ```bash
-alias tf=terraform
+git clone https://github.com/padok-team/dojo-terraform-aws-security
+cd dojo-terraform-aws-security
 ```
 
-You will also need `aws` CLI and configure it with the provided Access key using `padok_supelec` profile.
-You can follow the instructions to install `aws` CLI on the [AWS documentation page](https://docs.aws.amazon.com/fr_fr/cli/latest/userguide/install-cliv2-linux.html).
-Then, to configure your Access key, run:
-```bash
-mkdir ~/.aws
-cat  << EOF > ~/.aws/credentials
-[padok_supelec]
-aws_access_key_id = <ACCESS_KEY>
-aws_secret_access_key = <SECRET_KEY>
-EOF
-cat  << EOF > ~/.aws/config
-[profile padok_supelec]
-region = eu-west-3
-output = json
-EOF
-```
+### Connect to a distant VM
 
-# Explore the Terraform code
+To work efficiently, you will work on a distant VM on which all the following tools are already installed.
+
+- `git`: Version your code and collaborate
+- [`terraform`](https://www.terraform.io): In the following, the alias `tf` is been used for `terraform`.
+- [`kubectl`](https://kubernetes.io/docs/tasks/tools/#kubectl): The CLI to interact with Kubernetes
+- [`aws CLI`](https://docs.aws.amazon.com/fr_fr/cli)
+
+To connect to the VM:
+
+- Install VSCode
+- Add the following [Remote SSH extension](https://code.visualstudio.com/docs/remote/ssh) to VSCode
+
+- Create a github account
+- Create a SSH key on your Github account: [Add a ssh key documentation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+- Share your handle Github with Padok's team member
+
+- Launch a "Remote SSH Session" with VSCode extension via the command `ssh cs@<handleGithub>.aws.padok.cloud`
+
+## Explore the Terraform code
 
 You can explore `iac/` folder to understand the different parts of the code
 
 ![Schema](./insecure_architecture.png)
 
-# Bootstrap the environment
+### Bootstrap the environment
 
 To create the insecure infrastructure, follow these steps:
 
@@ -88,9 +97,7 @@ ssh -o IdentitiesOnly=yes -i ~/.ssh/padok_supelec.id_rsa ubuntu@35.180.124.183
 curl http://15.237.26.206
 ```
 
-
-
-# Let's secure it !
+## Let's secure it !
 
 Ready? Set. Go!
 
