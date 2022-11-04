@@ -2,7 +2,7 @@ locals {
   common_tags = {
     source = "Dojo VSCode Box"
   }
-  env_name = "Anne-Flore"
+  env_name = "dojocs"
 }
 
 resource "aws_vpc" "vpc" {

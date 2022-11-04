@@ -128,14 +128,14 @@ resource "aws_iam_instance_profile" "ec2" {
 }
 
 data "aws_route53_zone" "selected" {
-  name         = "aws.padok.dojo"
+  name         = "cs.padok.school"
 }
 
 resource "aws_route53_record" "vm" {
   for_each = local.github_usernames
 
   zone_id = data.aws_route53_zone.selected.zone_id
-  name    = "${each.key}.aws.padok.dojo"
+  name    = "${each.key}.cs.padok.school"
   type    = "A"
   ttl     = "300"
   records = [aws_instance.dojo[each.key].public_ip]
@@ -145,5 +145,5 @@ resource "aws_route53_record" "vm" {
 # Output
 
 output "public_dns" {
-  value = {for user in local.github_usernames: user => "ssh ${user}@${user}.aws.padok.dojo"}
+  value = {for user in local.github_usernames: user => "ssh cs@${user}.cs.padok.school"}
 }
