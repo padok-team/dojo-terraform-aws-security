@@ -21,12 +21,3 @@ output "public_subnets_dev" {
 output "private_subnets_dev" {
   value = module.vpc["dev"].private_subnets
 }
-
-output "eleve_access_key" {
-  value = aws_iam_access_key.eleve.id
-}
-
-output "eleve_secret_key" {
-  value = aws_iam_access_key.eleve.secret
-  sensitive = true
-}

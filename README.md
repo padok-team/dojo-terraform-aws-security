@@ -25,8 +25,7 @@ To work efficiently, you will work on a distant VM on which all the following to
 
 - `git`: Version your code and collaborate
 - [`terraform`](https://www.terraform.io): In the following, the alias `tf` is been used for `terraform`.
-- [`kubectl`](https://kubernetes.io/docs/tasks/tools/#kubectl): The CLI to interact with Kubernetes
-- [`aws CLI`](https://docs.aws.amazon.com/fr_fr/cli)
+- [`aws CLI`](https://docs.aws.amazon.com/fr_fr/cli): The CLI to interact with AWS.
 
 To connect to the VM:
 
@@ -37,7 +36,7 @@ To connect to the VM:
 - Create a SSH key on your Github account: [Add a ssh key documentation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
 - Share your handle Github with Padok's team member
 
-- Launch a "Remote SSH Session" with VSCode extension via the command `ssh cs@<handleGithub>.aws.padok.cloud`
+- Launch a "Remote SSH Session" with VSCode extension via the command `ssh cs@<handleGithub>.aws.cs.padok.cloud`
 
 ## Explore the Terraform code
 
