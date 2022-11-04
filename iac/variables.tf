@@ -7,7 +7,7 @@ variable "aws_region" {
 variable "aws_profile" {
   type    = string
   description = "Name of the AWS profile in ~/.aws/credentials"
-  default = "padok_supelec"
+  default = "padok-supelec"
 }
 
 variable "environment" {
