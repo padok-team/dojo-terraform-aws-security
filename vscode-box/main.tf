@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "aws" {
-  profile = "padok-lab"
+  profile = "padok-supelec"
   region  = "eu-west-3"
 }
 
@@ -84,7 +84,6 @@ data "aws_iam_policy_document" "ec2_sts_assume" {
       "sts:AssumeRole"
     ]
   }
-
 }
 resource "aws_iam_role" "ec2" {
   name_prefix        = "${local.env_name}_"
@@ -96,20 +95,47 @@ resource "aws_iam_role_policy_attachment" "ec2_ssm" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
+resource "aws_iam_policy" "dojo" {
+  name        = "dojo-policy"
+  description = "dojo needed permissions"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:*",
+        "elasticloadbalancing:*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "ec2" {
+  role       = aws_iam_role.ec2.name
+  policy_arn = aws_iam_policy.dojo.arn
+
+}
+
 resource "aws_iam_instance_profile" "ec2" {
   name_prefix = "${local.env_name}_"
   role        = aws_iam_role.ec2.name
 }
 
 data "aws_route53_zone" "selected" {
-  name         = "aws.padok.cloud"
+  name         = "aws.padok.dojo"
 }
 
 resource "aws_route53_record" "vm" {
   for_each = local.github_usernames
 
   zone_id = data.aws_route53_zone.selected.zone_id
-  name    = "${each.key}.aws.padok.cloud"
+  name    = "${each.key}.aws.padok.dojo"
   type    = "A"
   ttl     = "300"
   records = [aws_instance.dojo[each.key].public_ip]
@@ -119,5 +145,5 @@ resource "aws_route53_record" "vm" {
 # Output
 
 output "public_dns" {
-  value = {for user in local.github_usernames: user => "ssh ${user}@${user}.aws.padok.cloud"}
+  value = {for user in local.github_usernames: user => "ssh ${user}@${user}.aws.padok.dojo"}
 }

@@ -1,5 +1,5 @@
 locals {
   github_usernames = toset([
-    "Anne-Flore"
+    "Anne-Flore","oussamaca"
   ])
 }

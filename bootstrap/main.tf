@@ -2,20 +2,15 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.11"
+      version = ">= 3.38.0"
     }
   }
 }
 provider "aws" {
-  profile = "padok-lab"
+  profile = "padok-supelec"
   region  = "eu-west-3"
 }
 
-/* 
-Grant IAM Role to the user's EC2
-*/
-
-## TODO
 
 data "aws_availability_zones" "available" {}
 
