@@ -36,7 +36,7 @@ To connect to the VM:
 - Create a SSH key on your Github account: [Add a ssh key documentation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
 - Share your handle Github with Padok's team member
 
-- Launch a "Remote SSH Session" with VSCode extension via the command `ssh cs@<handleGithub>.aws.cs.padok.cloud`
+- Launch a "Remote SSH Session" with VSCode extension via the command `ssh cs@<handleGithub>.cs.padok.school`
 
 ## Explore the Terraform code
 
@@ -106,7 +106,6 @@ Create a second Terraform workspace to be able to have two identical environment
 
 ```
 tf workspace new dev
-cp prd.tfvars dev.tfvars
 ```
 
 The `tfvars` files will be used to defined environment specific variable values.
@@ -114,8 +113,7 @@ The `tfvars` files will be used to defined environment specific variable values.
 
 We want only one webserver in each environment:
 
-1. Modify the dev.tfvars to change the `environment` variable from `prd` to `dev`. It will create resource with `dev` in their name for development environment.
-
+1. The dev.tfvars has already been created with development values (vpc,subnet) . It will create resource with `dev` in their name for development environment.
 2. Modify `main.tf` to have only one resource to describe both environments (instead of the two existing resources `staging_webserver` and `production_webserver`).
 
 <details>

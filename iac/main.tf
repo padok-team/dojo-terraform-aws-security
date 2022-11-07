@@ -24,7 +24,7 @@ data "aws_ami" "webserver_ami" {
 
   filter {
     name   = "name"
-    values =["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
   }
 
   filter {
@@ -44,13 +44,13 @@ PRODUCTION ENVIRONMENT
 resource "aws_instance" "production_webserver" {
 
   // Define the image
-  ami           = data.aws_ami.webserver_ami.id
+  ami = data.aws_ami.webserver_ami.id
 
   // Define the type of instance. t2.micro is a small machine
   instance_type = "t2.micro"
 
   // Define the SSH key pair
-  key_name                    = aws_key_pair.key_pair.key_name
+  key_name = aws_key_pair.key_pair.key_name
 
   // Create a public IP adress for the instance
   associate_public_ip_address = true
@@ -64,7 +64,7 @@ resource "aws_instance" "production_webserver" {
   )
 
   // Define in which subnet the instance is
-  subnet_id         = var.public_subnets[0]
+  subnet_id = var.public_subnets[0]
 
   // Define which security group is associated to the instance
   vpc_security_group_ids = [
@@ -81,13 +81,13 @@ STAGING ENVIRONMENT
 resource "aws_instance" "staging_webserver" {
 
   // Define the image
-  ami           = data.aws_ami.webserver_ami.id
+  ami = data.aws_ami.webserver_ami.id
 
   // Define the type of instance. t2.micro is a small machine
   instance_type = "t2.micro"
 
   // Define the SSH key pair
-  key_name                    = aws_key_pair.key_pair.key_name
+  key_name = aws_key_pair.key_pair.key_name
 
   // Create a public IP adress for the instance
   associate_public_ip_address = true
@@ -101,7 +101,7 @@ resource "aws_instance" "staging_webserver" {
   )
 
   // Define in which subnet the instance is
-  subnet_id         = var.public_subnets[0]
+  subnet_id = var.public_subnets[0]
 
   // Define which security group is associated to the instance
   vpc_security_group_ids = [

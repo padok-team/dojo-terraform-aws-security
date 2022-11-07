@@ -9,7 +9,7 @@ resource "aws_security_group" "allow_pub" {
   description = "Allow SSH inbound traffic"
 
   // VPC in which the subnet will be
-  vpc_id      = var.vpc_id
+  vpc_id = var.vpc_id
 
   // Ingress rules. This allow everything. Very secure
   ingress {
@@ -46,7 +46,7 @@ resource "aws_security_group" "allow_priv" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["10.0.0.0/24","10.0.1.0/24","10.0.2.0/24","10.0.3.0/24"]
+    cidr_blocks = ["10.0.0.0/24", "10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
   }
 
   // Ingress rules. This allow everything. Very secure
