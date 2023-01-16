@@ -2,7 +2,7 @@
 groups:
   - docker
 users:
-  - name: cs
+  - name: eleve
     ssh_import_id:
       - gh:${github_username}
     lock_passwd: true

@@ -36,7 +36,7 @@ To connect to the VM:
 - Create a SSH key on your Github account: [Add a ssh key documentation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
 - Share your handle Github with Padok's team member
 
-- Launch a "Remote SSH Session" with VSCode extension via the command `ssh cs@<handleGithub>.cs.padok.school`
+- Launch a "Remote SSH Session" with VSCode extension via the command `ssh eleve@<handleGithub>.cs.padok.school`
 
 ## Explore the Terraform code
 
