@@ -2,7 +2,7 @@ locals {
   common_tags = {
     source = "Dojo VSCode Box"
   }
-  env_name = "dojocs"
+  env_name = "dojo"
 }
 
 resource "aws_vpc" "vpc" {
@@ -10,7 +10,7 @@ resource "aws_vpc" "vpc" {
   enable_dns_support   = true
   enable_dns_hostnames = true
   tags = merge(local.common_tags,
-  { Name = "Dojo CS" })
+  { Name = "Dojo" })
 }
 
 data "aws_availability_zones" "available" {

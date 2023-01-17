@@ -145,5 +145,5 @@ resource "aws_route53_record" "vm" {
 # Output
 
 output "public_dns" {
-  value = {for user in local.github_usernames: user => "ssh cs@${user}.cs.padok.school"}
+  value = {for user in local.github_usernames: user => "ssh eleve@${user}.cs.padok.school"}
 }
