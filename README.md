@@ -19,6 +19,12 @@ git clone https://github.com/padok-team/dojo-terraform-aws-security
 cd dojo-terraform-aws-security
 ```
 
+## Github account
+
+- Create a github account
+- Create a SSH key on your Github account: [Add a ssh key documentation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+- Share your handle Github with Padok's team member
+
 ### Connect to a distant VM
 
 To work efficiently, you will work on a distant VM on which all the following tools are already installed.
@@ -31,10 +37,6 @@ To connect to the VM:
 
 - Install VSCode
 - Add the following [Remote SSH extension](https://code.visualstudio.com/docs/remote/ssh) to VSCode
-
-- Create a github account
-- Create a SSH key on your Github account: [Add a ssh key documentation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
-- Share your handle Github with Padok's team member
 
 - Launch a "Remote SSH Session" with VSCode extension via the command `ssh eleve@<handleGithub>.cs.padok.school`
 
@@ -209,7 +211,6 @@ OK ! Now we have separated network for environment. It is already much more secu
 ### Step 2 : Add Load Balancing
 
 We would like the webserver for development and production to be in a private subnet, with a frontal load balancer. It would avoid any port except from 80 to be publically accessible on the webserver. It also means that it won't be possible anymore to SSH into the machines (for now). Finally, it is a good practice to use a load balancer. It would allow us for exemple to have autoscaling in the future, or add AWS WAF to protect the website against vulnerabilities.
-* The dev environment to be accessible only from your IP adress
 
 
 1. Modify the right variable of resource `webserver` in `main.tf` to use a private subnet.
@@ -235,7 +236,7 @@ We would like the webserver for development and production to be in a private su
 </details>
 
 3. Add a Load balancer in `main.tf` to receive HTTP requests
-    * Documentation : https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb
+    * Documentation : https://registry.terraform.io/providers/hashicorp/aws/3.38.0/docs/resources/lb
     * The resource should contain the following variables :
       * name: `"${random_string.unique_id.id}-${var.environment}-webserver-lb"`
       * internal: `false`
@@ -279,7 +280,7 @@ resource "aws_lb" "webserver_lb" {
 ```
 </details>
 
-4. To configure the load balancer, you will have to add three more resources:
+1. To configure the load balancer, you will have to add three more resources:
    
 * `aws_lb_listener` : Listeners are assigned a specific port to keep an ear out for incoming traffic
   https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener
@@ -407,7 +408,7 @@ You can find solutions here:
 
 ## Step 3 : Network filtering
 
-It is time to restrict access to the public subnet for `dev` environment
+It is time to restrict access to the public subnet for `dev` environment: we want the `prd` environment to be accessible by everyone, but we want the `dev` environement to be accessible only from your IP address!
 
 1. Add a variable `ip_whitelist` of type `list` in `variables.tf` and modify `prd.tfvars` and `dev.tfvars` accordingly
 
@@ -425,7 +426,7 @@ It is time to restrict access to the public subnet for `dev` environment
 * `dev.tfvars` : `ip_whitelist = ['<your_ip>/32']`
 </details>
 
-2. Modify `allow_pub` resource in `network.tf` to only allow your public IP address **only for dev environment**
+1. Modify `allow_pub` resource in `network.tf` to allow ingress traffic only from your public IP address **for `dev` environment**. For `prd` environment, allow ingress traffic from everyone.
 
 <details>
   <summary>Solution</summary>

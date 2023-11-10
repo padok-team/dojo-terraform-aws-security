@@ -17,7 +17,7 @@ resource "aws_security_group" "allow_pub" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = var.ip_whitelist == [] ? ["0.0.0.0/0"] : var.ip_whitelist
+    cidr_blocks = length(var.ip_whitelist) == 0 ? ["0.0.0.0/0"] : var.ip_whitelist
   }
 
   // Egress rules. This allow everything. Very secure
