@@ -38,7 +38,7 @@ To connect to the VM:
 - Install VSCode
 - Add the following [Remote SSH extension](https://code.visualstudio.com/docs/remote/ssh) to VSCode
 
-- Launch a "Remote SSH Session" with VSCode extension via the command `ssh eleve@<handleGithub>.cs.padok.school`
+- Launch a "Remote SSH Session" with VSCode extension via the command `ssh eleve@<handleGithub>.staging.ecs-starter.lab.aws.padok.cloud`
 
 ## Explore the Terraform code
 

@@ -50,6 +50,6 @@ runcmd:
 
   # Clone the exercise repository
   - git clone https://github.com/padok-team/dojo-terraform-aws-security.git /home/eleve/dojo-terraform-aws-security
-  - sudo chown -R cs:cs /home/eleve/dojo-terraform-aws-security/
+  - sudo chown -R eleve:eleve /home/eleve/dojo-terraform-aws-security/
 
   - curl "https://echo.dixneuf19.me/${github_username}" # telemetry
