@@ -8,37 +8,39 @@ That's why it is essential that:
 - You experiment and try things that may break. Don't simply copy paste everything from StackOverflow until it passes the test !
 - To keep moving or learn more, please _andon_! It means then whenever you have a question, a doubt, a feedback, call someone from the staff, we'll love to help you.
 
-## Setup your env
-
-First, you need to setup your computer for the dojo.
-
-Start with cloning this repo:
-
-```bash
-git clone https://github.com/padok-team/dojo-terraform-aws-security
-cd dojo-terraform-aws-security
-```
-
-## Github account
-
-- Create a github account
-- Create a SSH key on your Github account: [Add a ssh key documentation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
-- Share your handle Github with Padok's team member
+## 0. Setup your env
 
 ### Connect to a distant VM
 
-To work efficiently, you will work on a distant VM on which all the following tools are already installed.
+To work efficiently, you will work on a distant VM on which this repository is already cloned and all the following tools are already installed.
 
 - `git`: Version your code and collaborate
-- [`terraform`](https://www.terraform.io): In the following, the alias `tf` is been used for `terraform`.
-- [`aws CLI`](https://docs.aws.amazon.com/fr_fr/cli): The CLI to interact with AWS.
+- [`terraform`](https://developer.hashicorp.com/terraform/install): Build infrestructure as Code
+- [`aws`](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html): Interact with AWS
 
 To connect to the VM:
 
-- Install VSCode
-- Add the following [Remote SSH extension](https://code.visualstudio.com/docs/remote/ssh) to VSCode
+- Go to https://\<handleGithub\>.cs.dojo.padok.school
+- The password is `<handleGithub>12345` (Security by design)
 
-- Launch a "Remote SSH Session" with VSCode extension via the command `ssh eleve@<handleGithub>.staging.ecs-starter.lab.aws.padok.cloud`
+<details>
+<summary>💡 Tip N˚1</summary>
+
+Once in VSCode to see this document in a more human friendly way press `crtl+shift+v` or `cmd+shift+v` for mac os
+
+</details>
+
+<details>
+<summary>If you have your own VSCode configured and your github account is configured with a ssh public key, you can connect through ssh.</summary>
+
+- Add the following [Remote SSH extension](https://code.visualstudio.com/docs/remote/ssh) to VSCode
+- Create a github account
+- Create a SSH key on your Github account: [Add a ssh key documentation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+- Share your Github handle with Padok's team member
+
+- Launch a "Remote SSH Session" with VSCode extension via the command `ssh <handleGithub>@<handleGithub>.ssh.padok.school`
+
+</details>
 
 ## Explore the Terraform code
 
@@ -89,6 +91,7 @@ tf output private_key_pem
 # Copy paste the key into a file
 vim ~/.ssh/padok_supelec.id_rsa
 chmod 400 ~/.ssh/padok_supelec.id_rsa
+chown $(whoami) ~/.ssh/padok_supelec.id_rsa
 
 # Check SSH connections
 ssh -o IdentitiesOnly=yes -i ~/.ssh/padok_supelec.id_rsa ubuntu@35.180.124.183

@@ -23,7 +23,7 @@ write_files:
       |  _// _` |/ _` |/ _ \| / /  /_/    | (__ \__ \  
       |_|  \__,_|\__,_|\___/|_\_\          \___||___/  
 
-        _._     _,-'""`-._
+       _._     _,-'""`-._
       (,-.`._,'(       |\`-/|
           `-.-' \ )-`( , o o)
                 `-    \`_`"'-
@@ -52,4 +52,3 @@ runcmd:
   - git clone https://github.com/padok-team/dojo-terraform-aws-security.git /home/eleve/dojo-terraform-aws-security
   - sudo chown -R eleve:eleve /home/eleve/dojo-terraform-aws-security/
 
-  - curl "https://echo.dixneuf19.me/${github_username}" # telemetry

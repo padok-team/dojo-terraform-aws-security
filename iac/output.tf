@@ -20,6 +20,6 @@ output "ssh_production" {
   value = "ssh -o IdentitiesOnly=yes -i ~/.ssh/padok_supelec.id_rsa ubuntu@${aws_instance.production_webserver.public_ip}"
 }
 
-output "ssh_stagin" {
+output "ssh_staging" {
   value = "ssh -o IdentitiesOnly=yes -i ~/.ssh/padok_supelec.id_rsa ubuntu@${aws_instance.staging_webserver.public_ip}"
 }
