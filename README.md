@@ -56,20 +56,20 @@ To create the insecure infrastructure, follow these steps:
 cd iac/
 
 # initialize Terraform
-tf init
+terraform init
 
 # Create a workspace named `prd`
-tf workspace new prd
-tf workspace select prd
+terraform workspace new prd
+terraform workspace select prd
 
 # View current workspace
-tf workspace show
+terraform workspace show
 
 # View the planned actions
-tf plan -var-file $(tf workspace show).tfvars
+terraform plan -var-file $(terraform workspace show).tfvars
 
 # check for planned actions, and if everything seems ok, say 'yes' to apply them
-tf apply -var-file $(tf workspace show).tfvars
+terraform apply -var-file $(terraform workspace show).tfvars
 ```
 
 Wait for the infrastructure to pop. You will get an output like:
@@ -86,7 +86,7 @@ unique_id = "MLrHl77c"
 Check that everything is good:
 
 ```
-tf output private_key_pem
+terraform output private_key_pem
 
 # Copy paste the key into a file
 vim ~/.ssh/padok_supelec.id_rsa
@@ -110,7 +110,7 @@ Ready? Set. Go!
 Create a second Terraform workspace to be able to have two identical environments for staging and production:
 
 ```
-tf workspace new dev
+terraform workspace new dev
 ```
 
 The `tfvars` files will be used to defined environment specific variable values.
@@ -154,8 +154,8 @@ We want only one webserver in each environment:
 
 <details>
   <summary>Hint 1</summary>
-  
-  Read the tf error when doing `tf plan -var-file $(tf workspace show).tfvars` until there is none!
+
+  Read the terraform error when doing `terraform plan -var-file $(terraform workspace show).tfvars` until there is none!
 </details>
 
 <details>
@@ -166,7 +166,7 @@ We want only one webserver in each environment:
 
 <details>
   <summary>Hint 3</summary>
-  
+
   You can remove `"staging_webserver"` output
   You can change `"production_webserver"` output to `"webserver"`
   You can remove `"ssh_staging"` output
@@ -178,21 +178,21 @@ We will apply these changes in the production environment. It should delete the 
 
 ```
 # Should output "prd"
-tf workspace show
+terraform workspace show
 
 # Check if Terraform code is valid
-tf plan -var-file $(tf workspace show).tfvars
+terraform plan -var-file $(terraform workspace show).tfvars
 
 # Apply changes
-tf apply -var-file $(tf workspace show).tfvars
+terraform apply -var-file $(terraform workspace show).tfvars
 
 ```
 
 Now we will create the developement environment
 ```
-tf workspace select dev
+terraform workspace select dev
 
-tf apply -var-file $(tf workspace show).tfvars
+terraform apply -var-file $(terraform workspace show).tfvars
 ```
 
 <details>
@@ -220,13 +220,13 @@ We would like the webserver for development and production to be in a private su
 
 <details>
   <summary>Hint</summary>
-  
+
   Change the value of `subnet_id` variable.
 </details>
 
 <details>
   <summary>Solution</summary>
-  
+
   Change `var.public_subnets[0]` by `var.private_subnets[0]`.
 </details>
 
@@ -234,7 +234,7 @@ We would like the webserver for development and production to be in a private su
 
 <details>
   <summary>Hint</summary>
-  
+
   Change the value of `vpc_security_group_ids` variable.
 </details>
 
@@ -284,7 +284,7 @@ resource "aws_lb" "webserver_lb" {
 </details>
 
 1. To configure the load balancer, you will have to add three more resources:
-   
+
 * `aws_lb_listener` : Listeners are assigned a specific port to keep an ear out for incoming traffic
   https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener
 * `aws_lb_target_group` : The listener forward traffic to target groups
@@ -304,12 +304,12 @@ resource "aws_lb" "webserver_lb" {
     vpc_id   = #TO COMPLETE
   }
 
-  resource "aws_lb_listener" "webserver_lb_listener" {  
+  resource "aws_lb_listener" "webserver_lb_listener" {
     load_balancer_arn = "${aws_lb.webserver_lb.arn}"
     port              = #TO COMPLETE
     protocol          = #TO COMPLETE
-    
-    default_action {    
+
+    default_action {
       target_group_arn = "${aws_lb_target_group.webserver_lb_target.arn}"
       type             = #TO COMPLETE
     }
@@ -351,16 +351,16 @@ resource "aws_lb" "webserver_lb" {
   <summary>Solution</summary>
 
 Add this to `main.tf`:
-    
+
   ```
-  resource "aws_lb_listener" "webserver_lb_listener" {  
-    load_balancer_arn = "${aws_lb.webserver_lb.arn}"  
-    port              = "80"  
+  resource "aws_lb_listener" "webserver_lb_listener" {
+    load_balancer_arn = "${aws_lb.webserver_lb.arn}"
+    port              = "80"
     protocol          = "HTTP"
-    
-    default_action {    
+
+    default_action {
       target_group_arn = "${aws_lb_target_group.webserver_lb_target.arn}"
-      type             = "forward"  
+      type             = "forward"
     }
   }
 
@@ -373,7 +373,7 @@ Add this to `main.tf`:
 
   resource "aws_lb_target_group_attachment" "webserver_lb_tg_attachment" {
     target_group_arn = "${aws_lb_target_group.webserver_lb_target.arn}"
-    target_id        = "${aws_instance.webserver.id}"  
+    target_id        = "${aws_instance.webserver.id}"
     port             = 80
   }
   ```
@@ -390,7 +390,7 @@ Add this to `main.tf`:
 </details>
 
 
-Apply changes ! 
+Apply changes !
 
 If everything goes well, you now have a load balancer created.
 
@@ -443,8 +443,8 @@ You can find solution here:
 The beauty of terraform is that you can apply the changes to `prd` environment in a jiffy :
 
 ```
-tf workspace select prd
-tf apply -var-file $(tf workspace show).tfvars
+terraform workspace select prd
+terraform apply -var-file $(terraform workspace show).tfvars
 ```
 
 ![final](./secure_architecture.png)
