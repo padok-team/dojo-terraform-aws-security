@@ -89,9 +89,9 @@ Check that everything is good:
 terraform output private_key_pem
 
 # Copy paste the key into a file
-vim ~/.ssh/padok_supelec.id_rsa
-chmod 400 ~/.ssh/padok_supelec.id_rsa
-chown $(whoami) ~/.ssh/padok_supelec.id_rsa
+sudo vim ~/.ssh/padok_supelec.id_rsa
+sudo chmod 400 ~/.ssh/padok_supelec.id_rsa
+sudo chown $(whoami) ~/.ssh/padok_supelec.id_rsa
 
 # Check SSH connections
 ssh -o IdentitiesOnly=yes -i ~/.ssh/padok_supelec.id_rsa ubuntu@35.180.124.183
