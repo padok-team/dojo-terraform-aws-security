@@ -7,7 +7,7 @@ terraform {
   }
 }
 provider "aws" {
-  profile = "padok-dojo"
+  profile = "padok_dojo"
   region  = "eu-west-3"
 }
 
