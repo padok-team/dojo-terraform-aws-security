@@ -7,7 +7,7 @@ terraform {
   }
 }
 provider "aws" {
-  profile = "padok-supelec"
+  profile = "padok-dojo"
   region  = "eu-west-3"
 }
 
