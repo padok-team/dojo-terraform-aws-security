@@ -83,7 +83,7 @@ staging_webserver = "http://15.237.26.206"
 unique_id = "MLrHl77c"
 ```
 
-Check that everything is good:
+Check that everything is good, using the IP from the previous command's outputs:
 
 ```
 terraform output private_key_pem
@@ -94,11 +94,12 @@ sudo chmod 400 ~/.ssh/padok_supelec.id_rsa
 sudo chown $(whoami) ~/.ssh/padok_supelec.id_rsa
 
 # Check SSH connections
-ssh -o IdentitiesOnly=yes -i ~/.ssh/padok_supelec.id_rsa ubuntu@35.180.124.183
-ssh -o IdentitiesOnly=yes -i ~/.ssh/padok_supelec.id_rsa ubuntu@35.180.124.183
+ssh -o IdentitiesOnly=yes -i ~/.ssh/padok_supelec.id_rsa ubuntu@<staging-ip>
+ssh -o IdentitiesOnly=yes -i ~/.ssh/padok_supelec.id_rsa ubuntu@<production-ip>
 
 # Check Web server
-curl http://15.237.26.206
+curl <staging_webserver>
+curl <production_webserver>
 ```
 
 ## Let's secure it !
