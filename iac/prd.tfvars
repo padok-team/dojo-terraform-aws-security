@@ -2,6 +2,6 @@
 aws_region = "eu-west-3"
 aws_profile = "padok_supelec"
 environment = "prd"
-vpc_id = "vpc-01ca28fc61f1c5df6"
-public_subnets = ["subnet-066fd897159b42f87","subnet-076c2e026b8275701"]
-private_subnets = ["subnet-003b1e2cf731c8e7a","subnet-0cc4cc59968535dc3"]
+vpc_id = "vpc-0a9ee742a284d6c8d"
+public_subnets = ["subnet-0c735422f8b1dab3f","subnet-04011f20d4f6ec0e6"]
+private_subnets = ["subnet-098a50c031cf8682e","subnet-0cd5144b8fe909429"]
